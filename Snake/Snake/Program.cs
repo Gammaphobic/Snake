@@ -25,22 +25,33 @@ namespace Snake
             VerticalLine rightline = new VerticalLine(78, 0, 24, '+');
             rightline.Draw();
             //Отрисовка точек
-            Point p = new Point(4, 5, '*');
+            Point p = new Point(3, 4, '*');
             Snake snake = new Snake(p, 4, Direction.RIGHT);
             snake.Draw();
 
+            FoodCreator foodCreator = new FoodCreator(80, 25, '$');
+            Point food = foodCreator.CreateFood();
+            food.Draw();
+
             while (true)
-            {
-                if (Console.KeyAvailable)
+                if (snake.Eat(food))
                 {
-                    ConsoleKeyInfo key = Console.ReadKey();
-                    snake.Handlekey(key.Key);
-
+                    food = foodCreator.CreateFood();
+                    food.Draw();
                 }
-                Thread.Sleep(100);
-                snake.Move();
-            }
+                else
+                {
+                    snake.Move();
+                }
 
+
+            if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+                snake.Handlekey(key.Key);
+
+            }
+            Thread.Sleep(300);
         }
         
     }
